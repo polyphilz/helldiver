@@ -16,6 +16,4 @@ In progress.
 
 ## Why another "static site generator"?
 
-It's true, there are existing (and awesome) projects like [jekyll](https://jekyllrb.com/) and [pelican](https://blog.getpelican.com/) that act as full-suite static site generators. As lightweight as they are though, even they were too "feature-complete" for my use case when I was building [my own personal website](https://github.com/rbnsl/personal-website). I wanted something so simple it barely required more than a cursory glance at the documentation for a newcomer.
-
-More importantly, Helldiver was fun to build :)
+It's true, there are existing (and awesome) projects like [jekyll](https://jekyllrb.com/) and [pelican](https://blog.getpelican.com/) that act as full-suite static site generators. As lightweight as they are though, even they were too "feature-complete" for my use case when I was building [my own personal website](https://github.com/rbnsl/personal-website). I didn't need themes or generation of my entire site, and I just wanted something so simple it barely required more than a cursory glance at the documentation. I just needed my Markdown to become blog-ready, and thus, Helldiver was born.
