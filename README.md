@@ -9,9 +9,7 @@ Helldiver allows you to:
 - Optionally specify a date and/or an author in your Markdown that will be included in the generated HTML
 - Add CSS classes to generated HTML tags
 
-## Getting Started
-
-### Installation
+## Installation
 
 Install Helldiver in 3 steps:
 
@@ -19,13 +17,13 @@ Install Helldiver in 3 steps:
 2. Add the program to your PATH
 3. Grant executable rights
 
-#### Installing the package from PyPI
+### Installing the package from PyPI
 
 Helldiver is built and packaged using [Poetry](https://python-poetry.org/). It requires Python 3.7 and can be installed simply using `pip`:
 
 `pip install helldiver`
 
-#### Adding Helldiver to your PATH
+### Adding Helldiver to your PATH
 
 You can then add it to your PATH for ease-of-use. Add the following to your `~/.bashrc` or `~/.zshrc`:
 
@@ -37,18 +35,18 @@ Don't forget to source with `source ~/.bashrc` or `source ~/.zshrc`. If you get 
 
 Example output of above command: `/usr/local/lib/python3.7/site-packages`
 
-#### Grant executable rights
+### Grant executable rights
 
 Run `chmod +x /usr/local/lib/python3.7/site-packages/helldiver/helldiver.py` to allow the program to be run.
 
-### Usage
+## Usage
 
 There are two components to using Helldiver:
 
 1. Adding a header line to your Markdown files that contain date/author information
 2. Running the program with the required flags
 
-#### Working with your Markdown
+### Working with your Markdown
 
 Helldiver uses the `%` character as a sentinel value, in between which you would place the desired date and author information. For example, at the top of your Markdown file, if you add the following line:
 
@@ -70,17 +68,17 @@ Date, but no author: `2/29/2020%%`
 
 Author, but no date: `%Tim Smith%`
 
-#### Running the program
+### Running the program
 
 `helldiver.py` takes 3 required flags and 1 optional flag:
 
-##### Required flags
+#### Required flags
 
 - `-f` or `--filename`: The file name of the Markdown file you want to convert
 - `-m` or `--markdown`: The file path to the directory containing the above Markdown file
 - `-ht` or `--html`: The file path to the directory you would like generated HTML to be placed in
 
-##### Optional flag
+#### Optional flag
 
 - `-c` or `--classes`: The class names you would like generated HTML elements to have. The format is `... -c h1=post-title h2=post-heading img=post-img` and so on. Provide as many or as little HTML tags as desired. Please ensure that you don't write `h1 = post-title`; this will be interpreted as 3 different flag values (h1, =, post-title)
 
