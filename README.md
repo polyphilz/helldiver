@@ -7,8 +7,8 @@ Helldiver is a lightweight utility written in Python that converts your Markdown
 Helldiver allows you to:
 
 - Specify a date and an author that will be included in the generated HTML
-- Add Jinja2 template strings to generated HTML to stay DRY
 - Add classes to generated HTML that will get picked up by your CSS
+- Add Jinja2 template strings to generated HTML to stay DRY
 
 ## Getting Started
 
