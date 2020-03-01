@@ -1,13 +1,13 @@
 # Helldiver
 
-Helldiver is a lightweight command-line program written in Python that converts your Markdown blog posts into blog-aware HTML. It's designed for blogs with the most minimal of features (think: a date when the post was written, *maybe* an author, and nothing more).
+Helldiver is a lightweight command-line program written in Python that converts your Markdown files into blog-aware HTML. It's designed for blogs with the most minimal of features (think: a date when the post was written, *maybe* an author, and nothing more).
 
 ## Features
 
 Helldiver allows you to:
 
-- Specify a date and an author that will be included in the generated HTML (if you want to)
-- Add classes to generated HTML tags that will get picked up by your CSS
+- Optionally specify a date and/or an author in your Markdown that will be included in the generated HTML
+- Add CSS classes to generated HTML tags
 
 ## Getting Started
 
@@ -72,11 +72,17 @@ Author, but no date: `%Tim Smith%`
 
 #### Running the program
 
-`helldiver.py` takes 3 required flags:
+`helldiver.py` takes 3 required flags and 1 optional flag:
+
+##### Required flags
 
 - `-f` or `--filename`: The file name of the Markdown file you want to convert
 - `-m` or `--markdown`: The file path to the directory containing the above Markdown file
 - `-ht` or `--html`: The file path to the directory you would like generated HTML to be placed in
+
+##### Optional flag
+
+- `-c` or `--classes`: The class names you would like generated HTML elements to have. The format is `... -c h1=post-title h2=post-heading img=post-img` and so on. Provide as many or as little HTML tags as desired. Please ensure that you don't write `h1 = post-title`; this will be interpreted as 3 different flag values (h1, =, post-title)
 
 For example, given the following directory structure:
   
@@ -106,11 +112,10 @@ When I run: `helldiver.py -f sample-post -m writing/markdown/ -ht writing/`, I w
 
 Please keep in mind that both directories that store Markdown and HTML files must exist to begin with.
 
-## Features in development
+## Known Issues
 
-- Dictate the formatting of the date
-- Specify class names you would like to add to generated HTML tags
+Be careful when using locally-stored images in your Markdown. If the directories that contain your Markdown and generated HTML aren't at the same level in the directory hierarchy, then the `src` attribute in the generated HTML won't correctly link to the image. This will have to be manually changed for now.
 
-## Why another "static site generator"?
+## Why Another "Static Site Generator"?
 
 It's true, there are existing (and amazing) projects like [jekyll](https://jekyllrb.com/) and [pelican](https://blog.getpelican.com/) that act as full-suite static site generators. As lightweight as they are though, even they were too "feature-complete" for my use case when I was building [my own personal website](https://github.com/rbnsl/personal-website). I needed something simple to make my Markdown blog-ready and wanted to have some fun in the process; thus, Helldiver was born.
