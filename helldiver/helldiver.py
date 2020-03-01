@@ -1,7 +1,6 @@
 #!/usr/bin/env python3.7
 import argparse
 import markdown2
-import sys
 import time
 
 from bs4 import BeautifulSoup as bs
@@ -42,7 +41,7 @@ def _put_args_into_namespace():
             required=True,
             help="stores the markdown file name for further processing",
         )
-    
+
     def _add_markdown_file_path_argument(parser):
         parser.add_argument(
             "-m",
@@ -53,7 +52,7 @@ def _put_args_into_namespace():
             required=True,
             help="stores the path to the directory containing your markdown posts",
         )
-    
+
     def _add_html_file_path_argument(parser):
         parser.add_argument(
             "-ht",
@@ -79,15 +78,15 @@ def _put_args_into_namespace():
 def _get_argument_values(args):
     def _parse_args_for_file_name(args):
         return args.filename[0]
-    
+
     def _append_file_extension_if_missing(filename):
         if ".md" not in filename:
             filename += ".md"
         return filename
-    
+
     def _parse_args_for_markdown_path(args):
         return args.markdown[0]
-    
+
     def _parse_args_for_html_path(args):
         return args.html[0]
 
