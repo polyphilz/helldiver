@@ -6,7 +6,8 @@ import time
 from bs4 import BeautifulSoup as bs
 
 
-# TODO(rbnsl): Figure out if feasible to add <img> to this
+# Default class names that can be overridden with values passed through the
+# -c flag
 HTML_TAG_TO_CLASS_NAME_MAPPING = {
     "h1": "post-title",
     "h2": "post-heading",
@@ -15,6 +16,8 @@ HTML_TAG_TO_CLASS_NAME_MAPPING = {
     "h5": "post-heading4",
     "h6": "post-heading5",
     "p": "post-paragraph",
+    "code": "post-code-block",
+    "img": "post-img",
 }
 
 
@@ -64,6 +67,21 @@ def _put_args_into_namespace():
             help="stores the path to the directory containing generated HTML",
         )
 
+    def _add_class_names_argument(parser):
+        parser.add_argument(
+            "-c",
+            "--classes",
+            action="store",
+            nargs=argparse.REMAINDER,
+            type=str,
+            required=False,
+            help="stores the class names you would like to be added to\
+                generated HTML. Format: ... -c h1=post-title h2=post-heading\
+                and so on. Provide as many or as little HTML tags as desired.\
+                Please ensure that you don't write `h1 = post-title`; this will\
+                be interpreted as 3 different flag values (h1, =, post-title)",
+        )
+
     parser = argparse.ArgumentParser(
         description="Convert Markdown files into blog-specific HTML."
     )
@@ -71,6 +89,7 @@ def _put_args_into_namespace():
     _add_markdown_filename_argument(parser)
     _add_markdown_file_path_argument(parser)
     _add_html_file_path_argument(parser)
+    _add_class_names_argument(parser)
 
     return parser.parse_args()  # Fmt: Namespace(filename=['sample-post'])
 
@@ -90,10 +109,17 @@ def _get_argument_values(args):
     def _parse_args_for_html_path(args):
         return args.html[0]
 
+    def _parse_args_for_class_names(args):
+        if args.classes:
+            for tag_and_class_name in args.classes:
+                tag, class_name = tag_and_class_name.split("=")
+                HTML_TAG_TO_CLASS_NAME_MAPPING[tag] = class_name
+
     filename = _parse_args_for_file_name(args)
     filename = _append_file_extension_if_missing(filename)
     markdown_path = _parse_args_for_markdown_path(args)
     html_path = _parse_args_for_html_path(args)
+    _parse_args_for_class_names(args)
 
     return filename, markdown_path, html_path
 
@@ -174,9 +200,7 @@ def _add_classes_to_html(html):
     return soup
 
 
-# TODO(rbnsl): Refactor this to be better
 def _add_date_and_author_to_html(soup, date, author):
-    # TODO(rbnsl): Make this work with DD/MM/YYYY
     def _reformat_date(date):
         month, day, year = [int(x) for x in date.split("/")]
         time_collection = (
