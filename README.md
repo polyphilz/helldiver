@@ -1,18 +1,22 @@
 # Helldiver
 
-Helldiver is a lightweight utility written in Python that converts your Markdown blog posts into blog-aware HTML. It's designed for blogs with the most minimal of features (think: a date when the post was written, *maybe* an author, and nothing more).
+Helldiver is a lightweight command-line program written in Python that converts your Markdown blog posts into blog-aware HTML. It's designed for blogs with the most minimal of features (think: a date when the post was written, *maybe* an author, and nothing more).
 
 ## Features
 
 Helldiver allows you to:
 
-- Specify a date and an author that will be included in the generated HTML
-- Add classes to generated HTML that will get picked up by your CSS
-- Add Jinja2 template strings to generated HTML to stay DRY
+- Specify a date and an author that will be included in the generated HTML (if you want to)
+- Add classes to generated HTML tags that will get picked up by your CSS
 
 ## Getting Started
 
 In progress.
+
+## Features in development
+
+- Dictate the formatting of the date
+- Specify class names you would like to add to generated HTML tags
 
 ## Why another "static site generator"?
 
