@@ -20,21 +20,19 @@ HTML_TAG_TO_CLASS_NAME_MAPPING = {
 
 
 def helldive():
-    filename = _get_markdown_file_name()
-    markdown_text = _get_markdown_text_from_file(filename)
+    args = _put_args_into_namespace()
+    filename, markdown_path, html_path = _get_argument_values(args)
+    markdown_text = _get_markdown_text_from_file(filename, markdown_path)
     date, author = _get_date_and_author(markdown_text)
     html = _convert_markdown_to_html(markdown_text)
     html = _add_classes_to_html(html)
     html = _add_date_and_author_to_html(html, date, author)
     html = _prettify_html(html)
-    _write_html_to_file(html, filename)
+    _write_html_to_file(html, filename, html_path)
 
 
-def _get_markdown_file_name():
-    def _put_args_into_namespace():
-        parser = argparse.ArgumentParser(
-            description="Convert Markdown files into blog-specific HTML."
-        )
+def _put_args_into_namespace():
+    def _add_markdown_filename_argument(parser):
         parser.add_argument(
             "-f",
             "--filename",
@@ -44,24 +42,65 @@ def _get_markdown_file_name():
             required=True,
             help="stores the markdown file name for further processing",
         )
-        return parser.parse_args()  # Fmt: Namespace(filename=['sample-post'])
+    
+    def _add_markdown_file_path_argument(parser):
+        parser.add_argument(
+            "-m",
+            "--markdown",
+            action="store",
+            nargs=1,
+            type=str,
+            required=True,
+            help="stores the path to the directory containing your markdown posts",
+        )
+    
+    def _add_html_file_path_argument(parser):
+        parser.add_argument(
+            "-ht",
+            "--html",
+            action="store",
+            nargs=1,
+            type=str,
+            required=True,
+            help="stores the path to the directory containing generated HTML",
+        )
 
+    parser = argparse.ArgumentParser(
+        description="Convert Markdown files into blog-specific HTML."
+    )
+
+    _add_markdown_filename_argument(parser)
+    _add_markdown_file_path_argument(parser)
+    _add_html_file_path_argument(parser)
+
+    return parser.parse_args()  # Fmt: Namespace(filename=['sample-post'])
+
+
+def _get_argument_values(args):
     def _parse_args_for_file_name(args):
         return args.filename[0]
-
+    
     def _append_file_extension_if_missing(filename):
         if ".md" not in filename:
             filename += ".md"
         return filename
+    
+    def _parse_args_for_markdown_path(args):
+        return args.markdown[0]
+    
+    def _parse_args_for_html_path(args):
+        return args.html[0]
 
-    args = _put_args_into_namespace()
     filename = _parse_args_for_file_name(args)
     filename = _append_file_extension_if_missing(filename)
-    return filename
+    markdown_path = _parse_args_for_markdown_path(args)
+    html_path = _parse_args_for_html_path(args)
+
+    return filename, markdown_path, html_path
 
 
-def _get_markdown_text_from_file(filename):
-    with open(filename) as f:
+def _get_markdown_text_from_file(filename, markdown_path):
+    with open(markdown_path + filename) as f:
         return f.read()
 
 
@@ -189,13 +228,13 @@ def _prettify_html(html):
     return html.prettify()
 
 
-def _write_html_to_file(html, filename):
+def _write_html_to_file(html, filename, html_path):
     def _convert_md_file_extension_to_html(filename):
         return filename.replace(".md", ".html")
 
     html_filename = _convert_md_file_extension_to_html(filename)
 
-    with open(html_filename, "w") as f:
+    with open(html_path + html_filename, "w") as f:
         f.write(html)
 
 
