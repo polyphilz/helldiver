@@ -43,26 +43,55 @@ Run `chmod +x /usr/local/lib/python3.7/site-packages/helldiver/helldiver.py` to 
 
 ### Usage
 
+There are two components to using Helldiver:
+
+1. Adding a header line to your Markdown files that contain date/author information
+2. Running the program with the required flags
+
+#### Working with your Markdown
+
+Helldiver uses the `%` character as a sentinel value, in between which you would place the desired date and author information. For example, at the top of your Markdown file, if you add the following line:
+
+```
+02/29/2020%Tim Smith%
+
+# My title for my post
+
+... content ...
+```
+
+The date and author retrieved will be `02/29/2020` and `Tim Smith` respectively.
+
+Don't want to put a date, an author or either of them? That's completely okay, just leave the corresponding area in the header blank:
+
+No date, no author: `%%`
+
+Date, but no author: `2/29/2020%%`
+
+Author, but no date: `%Tim Smith%`
+
+#### Running the program
+
 `helldiver.py` takes 3 required flags:
 
 - `-f` or `--filename`: The file name of the Markdown file you want to convert
 - `-m` or `--markdown`: The file path to the directory containing the above Markdown file
 - `-ht` or `--html`: The file path to the directory you would like generated HTML to be placed in
 
-For example, given the following directory structure (`html` is a directory):
+For example, given the following directory structure:
   
 ```
 .
 |--- ...
 |--- writing
 |    |--- markdown
-|    |    |--- sample-post.md
-|    |--- html 
+|         |--- sample-post.md
+|     
 |         
 |--- ...
 ```
 
-When I run: `helldiver.py -f sample-post -m markdown/ -ht html/`, I would expect a `sample-post.html` to be added to the `html` directory:
+When I run: `helldiver.py -f sample-post -m writing/markdown/ -ht writing/`, I would expect a `sample-post.html` to be added to the `writing` directory:
 
 ```
 .
@@ -70,8 +99,8 @@ When I run: `helldiver.py -f sample-post -m markdown/ -ht html/`, I would expect
 |--- writing
 |    |--- markdown
 |    |    |--- sample-post.md
-|    |--- html 
-|         |--- sample-post.html
+|    |---sample-post.html 
+|         
 |--- ...
 ```
 
