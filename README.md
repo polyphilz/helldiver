@@ -78,9 +78,10 @@ Author, but no date: `%Tim Smith%`
 - `-m` or `--markdown`: The file path to the directory containing the above Markdown file
 - `-ht` or `--html`: The file path to the directory you would like generated HTML to be placed in
 
-#### Optional flag
+#### Optional flags
 
 - `-c` or `--classes`: The class names you would like generated HTML elements to have. The format is `... -c h1=post-title h2=post-heading img=post-img` and so on. Provide as many or as little HTML tags as desired. Please ensure that you don't write `h1 = post-title`; this will be interpreted as 3 different flag values (h1, =, post-title)
+- `-hr` or `--hrule`: A boolean indicating whether you would like to add an `<hr>` tag after your title, author and/or date. Ex: `... -hr True`. Leave the flag out if you don't want the tag.
 
 For example, given the following directory structure:
   

@@ -23,12 +23,12 @@ HTML_TAG_TO_CLASS_NAME_MAPPING = {
 
 def helldive():
     args = _put_args_into_namespace()
-    filename, markdown_path, html_path = _get_argument_values(args)
+    filename, markdown_path, html_path, add_hr = _get_argument_values(args)
     markdown_text = _get_markdown_text_from_file(filename, markdown_path)
     date, author = _get_date_and_author(markdown_text)
     html = _convert_markdown_to_html(markdown_text)
     html = _add_classes_to_html(html)
-    html = _add_date_and_author_to_html(html, date, author)
+    html = _add_date_and_author_to_html(html, date, author, add_hr)
     html = _prettify_html(html)
     _write_html_to_file(html, filename, html_path)
 
@@ -81,6 +81,18 @@ def _put_args_into_namespace():
                 Please ensure that you don't write `h1 = post-title`; this will\
                 be interpreted as 3 different flag values (h1, =, post-title)",
         )
+    
+    def _add_hr_argument(parser):
+        parser.add_argument(
+            "-hr",
+            "--hrule",
+            action="store",
+            nargs=1,
+            type=bool,
+            required=False,
+            help="stores a boolean representing whether you would like to add\
+                an <hr> tag after the title, author and date",
+        )
 
     parser = argparse.ArgumentParser(
         description="Convert Markdown files into blog-specific HTML."
@@ -90,6 +102,7 @@ def _put_args_into_namespace():
     _add_markdown_file_path_argument(parser)
     _add_html_file_path_argument(parser)
     _add_class_names_argument(parser)
+    _add_hr_argument(parser)
 
     return parser.parse_args()  # Fmt: Namespace(filename=['sample-post'])
 
@@ -114,14 +127,18 @@ def _get_argument_values(args):
             for tag_and_class_name in args.classes:
                 tag, class_name = tag_and_class_name.split("=")
                 HTML_TAG_TO_CLASS_NAME_MAPPING[tag] = class_name
+    
+    def _parse_args_for_hr(args):
+        return bool(args.hrule[0]) if args.hrule else None
 
     filename = _parse_args_for_file_name(args)
     filename = _append_file_extension_if_missing(filename)
     markdown_path = _parse_args_for_markdown_path(args)
     html_path = _parse_args_for_html_path(args)
     _parse_args_for_class_names(args)
+    add_hr = _parse_args_for_hr(args)
 
-    return filename, markdown_path, html_path
+    return filename, markdown_path, html_path, add_hr
 
 
 def _get_markdown_text_from_file(filename, markdown_path):
@@ -200,7 +217,7 @@ def _add_classes_to_html(html):
     return soup
 
 
-def _add_date_and_author_to_html(soup, date, author):
+def _add_date_and_author_to_html(soup, date, author, add_hr):
     def _reformat_date(date):
         month, day, year = [int(x) for x in date.split("/")]
         time_collection = (
@@ -243,6 +260,16 @@ def _add_date_and_author_to_html(soup, date, author):
         date_tag.append(date)
         date_tag["class"] = "post-date"
         h1.insert_after(date_tag)
+    
+    if add_hr:
+        hr_tag = soup.new_tag("hr")
+
+        if author:
+            author_tag.insert_after(hr_tag)
+        elif not author and date:
+            date_tag.insert_after(hr_tag)
+        else:
+            h1.insert_after(hr_tag)
 
     return soup
 
