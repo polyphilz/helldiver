@@ -2,7 +2,7 @@
 
 Helldiver is a lightweight command-line program written in Python that converts your Markdown files into blog-aware HTML. It's designed for blogs with the most minimal of features (think: a date when the post was written, *maybe* an author, and nothing more).
 
-Essentially, you can turn this:
+Essentially, with one simple command, it lets you turn this:
 
 ```
 2/29/2020%Tim Smith%
@@ -37,8 +37,6 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
  <img alt="alt text" class="post-img" src="../sample-assets/google-logo.png" title="Logo Title Text"/>
 </p>
 ```
-
-😎
 
 ## Features
 
