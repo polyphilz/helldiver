@@ -18,6 +18,9 @@ HTML_TAG_TO_CLASS_NAME_MAPPING = {
     "p": "post-paragraph",
     "code": "post-code-block",
     "img": "post-img",
+    "ol": "post-ol",
+    "ul": "post-ul",
+    "blockquote": "post-quote",
 }
 
 
