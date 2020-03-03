@@ -32,6 +32,7 @@ def helldive():
     html = _convert_markdown_to_html(markdown_text)
     html = _add_classes_to_html(html)
     html = _add_date_and_author_to_html(html, date, author, add_hr)
+    html = _add_blank_target_to_anchor_tag_links(html)
     html = _prettify_html(html)
     _write_html_to_file(html, filename, html_path)
 
@@ -274,6 +275,16 @@ def _add_date_and_author_to_html(soup, date, author, add_hr):
         else:
             h1.insert_after(hr_tag)
 
+    return soup
+
+
+def _add_blank_target_to_anchor_tag_links(soup):
+    anchor_tags = soup.findAll("a")
+    for anchor_tag in anchor_tags:
+        if anchor_tag["href"]:
+            href = anchor_tag["href"]
+            if "http" in href:
+                anchor_tag["target"] = "_blank"
     return soup
 
 
